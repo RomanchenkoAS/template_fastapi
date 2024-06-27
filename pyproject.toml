@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "fastapi_open_blog"
+version = "0.1.0"
+description = "Open blog on FastAPI."
+authors = ["RomanchenkoAS <RomanchenkoAS@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+fastapi = "^0.111.0"
+jinja2 = "^3.1.4"
+pydantic = "^2.7.4"
+python = "^3.12"
+python-dotenv = "^1.0.1"
+python-multipart = "^0.0.9"
+requests = "^2.32.3"
+uvicorn = "^0.30.1"
+websockets = "^12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+black = "^24.4.2"
+flake8-pyproject = "^1.2.3"
+isort = "^5.13.2"
+pytest = "^8.2.2"
+
+[tool.flake8]
+max-line-length = 90
+exclude = [
+    ".venv",
+    ".git",
+    "__pycache__"
+]
+
+[tool.pytest.ini_options]
+addopts = "-p no:warnings"
