@@ -3,6 +3,8 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
+# To enable auto-detect schemas
+from db.models import *  # noqa
 from db.database_definition import SQL_ALCHEMY_DATABASE_URL, Base
 
 # Retrieve the Alembic Config object and set the SQLAlchemy URL.
@@ -12,6 +14,7 @@ config.set_main_option("sqlalchemy.url", SQL_ALCHEMY_DATABASE_URL)
 # Setup loggers if config file name is provided.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
+
 
 # Set the metadata for 'autogenerate' support.
 target_metadata = Base.metadata
