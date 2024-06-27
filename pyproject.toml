@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fastapi_open_blog"
-version = "0.1.0"
+version = "0.2.0"
 description = "Open blog on FastAPI."
 authors = ["RomanchenkoAS <RomanchenkoAS@yandex.ru>"]
 readme = "README.md"
@@ -39,3 +39,22 @@ exclude = [
 
 [tool.pytest.ini_options]
 addopts = "-p no:warnings"
+
+[tool.black]
+line-length = 90
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | migrations
+  | alembic/versions
+)/
+'''
