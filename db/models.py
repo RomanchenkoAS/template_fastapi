@@ -39,11 +39,11 @@ class DbAuthor(Base):
     __tablename__ = "authors_t"
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
-    last_posted = Column(DateTime, default=timestamp)
+    last_posted = Column(DateTime, default=timestamp, nullable=True)
     is_admin = Column(Boolean, nullable=False, default=False)
 
     # Foreign
-    posts = relationship("DbPost", back_populates="author")
+    posts = relationship("DbBlogPost", back_populates="author")
 
     def __repr__(self):
         return f"<Author {self.id} {self.name}>"

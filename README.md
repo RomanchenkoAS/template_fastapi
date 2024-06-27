@@ -4,6 +4,8 @@
 
 - missing
 
+- Migrations are managed by [Alembic](https://alembic.sqlalchemy.org/en/latest/).
+
 ## Requirements
 
 - missing

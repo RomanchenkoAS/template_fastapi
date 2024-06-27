@@ -1,6 +1,8 @@
 import pytest
 from fastapi import status
 
+from db.models import DbAuthor
+
 
 @pytest.mark.usefixtures("test_client")
 def test_root(test_client):
@@ -13,9 +15,19 @@ def test_root(test_client):
 
 @pytest.mark.usefixtures("test_client", "test_db")
 def test_database(test_client, test_db):
-    """Test basic database operations"""
-    pass
+    """
+        Test basic database operations
+        - Make sure the database is up and running
+        - Check that migrations are applied correctly
+    """
+    author = DbAuthor(name="Test Author")
+    test_db.add(author)
+    test_db.commit()
+    test_db.refresh(author)
 
+    # Assert the author was correctly inserted
+    assert author.id is not None
+    assert author.name == "Test Author"
 
 # from db.models import DbUser
 #
