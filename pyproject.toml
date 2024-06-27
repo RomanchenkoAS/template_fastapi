@@ -34,7 +34,8 @@ max-line-length = 90
 exclude = [
     ".venv",
     ".git",
-    "__pycache__"
+    "__pycache__",
+    "alembic/versions"
 ]
 
 [tool.pytest.ini_options]

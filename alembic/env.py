@@ -3,6 +3,7 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 
 from alembic import context
+
 # To enable auto-detect schemas
 from db.models import *  # noqa
 from db.database_definition import SQL_ALCHEMY_DATABASE_URL, Base

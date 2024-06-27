@@ -1,7 +1,7 @@
 import pytest
 from fastapi import status
 
-from db.models import DbAuthor
+from db.models import DbAuthor, DbBlogPost
 
 
 @pytest.mark.usefixtures("test_client")
@@ -16,10 +16,12 @@ def test_root(test_client):
 @pytest.mark.usefixtures("test_client", "test_db")
 def test_database(test_client, test_db):
     """
-        Test basic database operations
-        - Make sure the database is up and running
-        - Check that migrations are applied correctly
+    Test basic database operations
+    - Make sure the database is up and running
+    - Check that migrations are applied correctly
+    - Test insertion and retrieval of DbAuthor and DbBlogPost objects
     """
+    # Create a test author
     author = DbAuthor(name="Test Author")
     test_db.add(author)
     test_db.commit()
@@ -29,88 +31,35 @@ def test_database(test_client, test_db):
     assert author.id is not None
     assert author.name == "Test Author"
 
-# from db.models import DbUser
-#
-#
-# @pytest.mark.usefixtures("test_client")
-# def test_create_user(test_client):
-#     """Test the creation of a new user."""
-#     response = test_client.post(
-#         "/user/",
-#         json={"username": "testuser", "email": "testuser@example.com", "password": "password123"}
-#     )
-#     assert response.status_code == status.HTTP_200_OK
-#     assert response.json()["username"] == "testuser"
-#
-#
-# @pytest.mark.usefixtures("test_client")
-# def test_get_all_users(test_client):
-#     """Test retrieving all users and creating additional users."""
-#     response = test_client.get("/user/")
-#     assert response.status_code == status.HTTP_200_OK
-#     assert len(response.json()) == 1
-#     assert response.json()[0]["username"] == "testuser"
-#     assert response.json()[0]["email"] == "testuser@example.com"
-#     assert "password" not in response.json()[0]
-#
-#     response = test_client.post(
-#         "/user/",
-#         json={"username": "testuser", "email": "testuser@example.com", "password": "password123"}
-#     )
-#     assert response.status_code == status.HTTP_400_BAD_REQUEST
-#
-#     for i in range(1, 4):
-#         response = test_client.post(
-#             "/user/",
-#             json={"username": f"testuser{i}", "email": f"testuser{i}@example.com", "password": "password123"}
-#         )
-#         assert response.status_code == status.HTTP_200_OK
-#
-#     response = test_client.get("/user/")
-#     assert response.status_code == status.HTTP_200_OK
-#     assert len(response.json()) == 4
-#     assert response.json()[1]["username"] == "testuser1"
-#     assert response.json()[2]["username"] == "testuser2"
-#     assert response.json()[3]["username"] == "testuser3"
-#
-#
-# @pytest.mark.usefixtures("test_client")
-# def test_authenticate_user(test_client):
-#     """Test user authentication and token retrieval."""
-#     response = test_client.post(
-#         "/token",
-#         data={"username": "testuser", "password": "password123"}
-#     )
-#     assert response.status_code == status.HTTP_200_OK
-#     assert "access_token" in response.json()
-#     assert "username" in response.json()
-#     assert response.json()["username"] == "testuser"
-#     return response.json()["access_token"]
-#
-#
-# @pytest.mark.usefixtures("test_client")
-# def test_create_post(test_client):
-#     """Test creating a new post."""
-#     token = test_authenticate_user(test_client)
-#     headers = {"Authorization": f"Bearer {token}"}
-#     response = test_client.post(
-#         "/posts/",
-#         json={
-#             "title": "Test Post",
-#             "content": "This is a test post",
-#             "published": True,
-#             "creator_id": 1
-#         },
-#         headers=headers
-#     )
-#     assert response.status_code == status.HTTP_200_OK
-#     assert response.json()["title"] == "Test Post"
-#
-#
-# @pytest.mark.usefixtures("test_client", "test_db")
-# def test_delete_user(test_client, test_db):
-#     """Test deleting a user."""
-#     user_id = test_db.query(DbUser).filter(DbUser.username == "testuser").first().id
-#     response = test_client.delete(f"/user/{user_id}")
-#     assert response.status_code == status.HTTP_200_OK
-#     assert response.json()["success"] is True
+    # Create a test blog post associated with the author
+    blog_post = DbBlogPost(
+        title="Test Blog Post",
+        content="This is a test blog post content.",
+        author_id=author.id,
+    )
+    test_db.add(blog_post)
+    test_db.commit()
+    test_db.refresh(blog_post)
+
+    # Assert the blog post was correctly inserted
+    assert blog_post.id is not None
+    assert blog_post.title == "Test Blog Post"
+    assert blog_post.content == "This is a test blog post content."
+    assert blog_post.author_id == author.id
+
+    # Optionally, you can query the database to ensure the objects were inserted correctly
+    # Example:
+    queried_author = test_db.query(DbAuthor).filter(DbAuthor.id == author.id).first()
+    queried_blog_post = (
+        test_db.query(DbBlogPost).filter(DbBlogPost.id == blog_post.id).first()
+    )
+
+    assert queried_author is not None
+    assert queried_author.id == author.id
+    assert queried_author.name == "Test Author"
+
+    assert queried_blog_post is not None
+    assert queried_blog_post.id == blog_post.id
+    assert queried_blog_post.title == "Test Blog Post"
+    assert queried_blog_post.content == "This is a test blog post content."
+    assert queried_blog_post.author_id == author.id
