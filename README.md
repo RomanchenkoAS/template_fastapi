@@ -2,7 +2,14 @@
 ## Description
 
 This is an empty template for new FastAPI projects.
-- Migrations are managed by [Alembic](https://alembic.sqlalchemy.org/en/latest/).
+Featuring:
+- FastAPI
+- SQLAlchemy
+- Alembic for migrations, [docs.](https://alembic.sqlalchemy.org/en/latest/)
+- Poetry
+- Nginx
+- Docker & docker-compose
+- Tests
 
 ## Requirements
 
