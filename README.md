@@ -71,7 +71,7 @@
 - Apply alembic migrations to DB
 
   ```bash
-  alembic upgrade head
+  alembic -c alembic/alembic.ini upgrade head
   ```
 
 - In case of module not found error:
