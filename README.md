@@ -1,14 +1,15 @@
-# FastAPI Open blog
-
+# FastAPI template
 ## Description
 
-- missing
-
+This is an empty template for new FastAPI projects.
 - Migrations are managed by [Alembic](https://alembic.sqlalchemy.org/en/latest/).
 
 ## Requirements
 
-- missing
+
+- Python 3.12
+- Poetry
+- Postgre SQL
 
 ## Installation
 
@@ -67,11 +68,23 @@
   POSTGRES_PORT = 5432
   POSTGRES_HOST = localhost
   ```
+  
+- Create models in **db/models.py**
+- Generate migrations with 
+  ```shell
+  alembic -c alembic/alembic.ini revision --autogenerate -m "<migration name>" 
+  ```
 
 - Apply alembic migrations to DB
 
   ```bash
   alembic -c alembic/alembic.ini upgrade head
+  ```
+  
+- To downgrade:
+
+  ```bash
+  alembic downgrade -1
   ```
 
 - In case of module not found error:
@@ -94,3 +107,11 @@
   
   models.Base.metadata.create_all(bind=engine)
   ```
+  
+## Running the Application
+
+Build and run the Docker containers:
+
+```shell
+docker-compose up --build
+```
