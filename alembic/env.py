@@ -4,10 +4,10 @@ from sqlalchemy import engine_from_config, pool
 
 from alembic import context
 from alembic.config import Config
+from db.database_definition import SQL_ALCHEMY_DATABASE_URL, Base
 
 # To enable auto-detect schemas
 from db.models import *  # noqa
-from db.database_definition import SQL_ALCHEMY_DATABASE_URL, Base
 
 # Retrieve the Alembic Config object and set the SQLAlchemy URL.
 config = context.config

@@ -59,3 +59,11 @@ exclude = '''
   | alembic/versions
 )/
 '''
+
+[tool.isort]
+profile = "black"  # or any other profile you prefer
+line_length = 90
+skip = [
+    "alembic/versions",
+    ".venv"
+]

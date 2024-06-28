@@ -1,11 +1,6 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import (
-    Boolean,
-    DateTime,
-    LargeBinary,
-)
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, LargeBinary, String
 from sqlalchemy.orm import relationship
 
 from db.database_definition import Base
